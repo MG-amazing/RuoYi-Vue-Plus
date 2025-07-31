@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dromara.common.core.domain.event.ProcessCreateTaskEvent;
+import org.dromara.common.core.domain.event.ProcessTaskEvent;
 import org.dromara.common.core.domain.event.ProcessDeleteEvent;
 import org.dromara.common.core.domain.event.ProcessEvent;
 import org.dromara.common.core.enums.BusinessStatusEnum;
@@ -145,7 +145,7 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
     @EventListener(condition = "#processEvent.flowCode.startsWith('leave')")
     public void processHandler(ProcessEvent processEvent) {
         log.info("当前任务执行了{}", processEvent.toString());
-        TestLeave testLeave = baseMapper.selectById(Long.valueOf(processEvent.getBusinessId()));
+        TestLeave testLeave = baseMapper.selectById(Convert.toLong(processEvent.getBusinessId()));
         testLeave.setStatus(processEvent.getStatus());
         // 用于例如审批附件 审批意见等 存储到业务表内 自行根据业务实现存储流程
         Map<String, Object> params = processEvent.getParams();
@@ -157,7 +157,7 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
             // 办理意见
             String message = Convert.toStr(params.get("message"));
         }
-        if (processEvent.isSubmit()) {
+        if (processEvent.getSubmit()) {
             testLeave.setStatus(BusinessStatusEnum.WAITING.getStatus());
         }
         baseMapper.updateById(testLeave);
@@ -165,20 +165,17 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
 
     /**
      * 执行任务创建监听
-     * 示例：也可通过  @EventListener(condition = "#processCreateTaskEvent.flowCode=='leave1'")进行判断
+     * 示例：也可通过  @EventListener(condition = "#processTaskEvent.flowCode=='leave1'")进行判断
      * 在方法中判断流程节点key
-     * if ("xxx".equals(processCreateTaskEvent.getNodeCode())) {
+     * if ("xxx".equals(processTaskEvent.getNodeCode())) {
      * //执行业务逻辑
      * }
      *
-     * @param processCreateTaskEvent 参数
+     * @param processTaskEvent 参数
      */
-    @EventListener(condition = "#processCreateTaskEvent.flowCode.startsWith('leave')")
-    public void processCreateTaskHandler(ProcessCreateTaskEvent processCreateTaskEvent) {
-        log.info("当前任务创建了{}", processCreateTaskEvent.toString());
-        TestLeave testLeave = baseMapper.selectById(Long.valueOf(processCreateTaskEvent.getBusinessId()));
-        testLeave.setStatus(BusinessStatusEnum.WAITING.getStatus());
-        baseMapper.updateById(testLeave);
+    @EventListener(condition = "#processTaskEvent.flowCode.startsWith('leave')")
+    public void processTaskHandler(ProcessTaskEvent processTaskEvent) {
+        log.info("当前任务创建了{}", processTaskEvent.toString());
     }
 
     /**
@@ -191,7 +188,7 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
     @EventListener(condition = "#processDeleteEvent.flowCode.startsWith('leave')")
     public void processDeleteHandler(ProcessDeleteEvent processDeleteEvent) {
         log.info("监听删除流程事件，当前任务执行了{}", processDeleteEvent.toString());
-        TestLeave testLeave = baseMapper.selectById(Long.valueOf(processDeleteEvent.getBusinessId()));
+        TestLeave testLeave = baseMapper.selectById(Convert.toLong(processDeleteEvent.getBusinessId()));
         if (ObjectUtil.isNull(testLeave)) {
             return;
         }

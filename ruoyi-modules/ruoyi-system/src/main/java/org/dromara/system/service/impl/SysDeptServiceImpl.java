@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 部门管理 服务实现
@@ -92,6 +93,7 @@ public class SysDeptServiceImpl implements ISysDeptService, DeptService {
     }
 
     private LambdaQueryWrapper<SysDept> buildQueryWrapper(SysDeptBo bo) {
+        Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SysDept> lqw = Wrappers.lambdaQuery();
         lqw.eq(SysDept::getDelFlag, SystemConstants.NORMAL);
         lqw.eq(ObjectUtil.isNotNull(bo.getDeptId()), SysDept::getDeptId, bo.getDeptId());
@@ -99,6 +101,8 @@ public class SysDeptServiceImpl implements ISysDeptService, DeptService {
         lqw.like(StringUtils.isNotBlank(bo.getDeptName()), SysDept::getDeptName, bo.getDeptName());
         lqw.like(StringUtils.isNotBlank(bo.getDeptCategory()), SysDept::getDeptCategory, bo.getDeptCategory());
         lqw.eq(StringUtils.isNotBlank(bo.getStatus()), SysDept::getStatus, bo.getStatus());
+        lqw.between(params.get("beginTime") != null && params.get("endTime") != null,
+            SysDept::getCreateTime, params.get("beginTime"), params.get("endTime"));
         lqw.orderByAsc(SysDept::getAncestors);
         lqw.orderByAsc(SysDept::getParentId);
         lqw.orderByAsc(SysDept::getOrderNum);
@@ -127,23 +131,17 @@ public class SysDeptServiceImpl implements ISysDeptService, DeptService {
         if (CollUtil.isEmpty(depts)) {
             return CollUtil.newArrayList();
         }
-        // 获取当前列表中每一个节点的parentId，然后在列表中查找是否有id与其parentId对应，若无对应，则表明此时节点列表中，该节点在当前列表中属于顶级节点
-        List<Tree<Long>> treeList = CollUtil.newArrayList();
-        for (SysDeptVo d : depts) {
-            Long parentId = d.getParentId();
-            SysDeptVo sysDeptVo = StreamUtils.findFirst(depts, it -> it.getDeptId().longValue() == parentId);
-            if (ObjectUtil.isNull(sysDeptVo)) {
-                List<Tree<Long>> trees = TreeBuildUtils.build(depts, parentId, (dept, tree) ->
-                    tree.setId(dept.getDeptId())
-                        .setParentId(dept.getParentId())
-                        .setName(dept.getDeptName())
-                        .setWeight(dept.getOrderNum())
-                        .putExtra("disabled", SystemConstants.DISABLE.equals(dept.getStatus())));
-                Tree<Long> tree = StreamUtils.findFirst(trees, it -> it.getId().longValue() == d.getDeptId());
-                treeList.add(tree);
-            }
-        }
-        return treeList;
+        return TreeBuildUtils.buildMultiRoot(
+            depts,
+            SysDeptVo::getDeptId,
+            SysDeptVo::getParentId,
+            (node, treeNode) -> treeNode
+                .setId(node.getDeptId())
+                .setParentId(node.getParentId())
+                .setName(node.getDeptName())
+                .setWeight(node.getOrderNum())
+                .putExtra("disabled", SystemConstants.DISABLE.equals(node.getStatus()))
+        );
     }
 
     /**

@@ -47,12 +47,20 @@ public class SysMenuController extends BaseController {
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(LoginHelper.getUserId());
         return R.ok(menuService.buildMenus(menus));
     }
+
+    /**
+     * 获取对象
+     *
+     * @param path 组件名
+     * @return obj
+     */
     @PostMapping("/getInfoByPath")
     public R<SysMenu> getInfoByPath(@RequestParam String path) {
         path = StringUtils.removeStart(path, "/");
         SysMenu menus = menuService.getListByPath(path);
         return R.ok(menus);
     }
+
 
     /**
      * 获取菜单列表

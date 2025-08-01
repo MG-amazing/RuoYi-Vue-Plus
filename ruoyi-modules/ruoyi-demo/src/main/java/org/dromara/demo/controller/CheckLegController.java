@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/demo/checkLeg")
 public class CheckLegController {
-    @PostMapping("")
-    public R<String> checkLeg(@RequestParam("entityName") String entityName) {
-        return R.ok(ClassSourceChecker.isProjectClass(entityName));
+    @PostMapping("/nameCheck")
+    public R<String> nameCheck(@RequestParam("entityName") String entityName) {
+        return R.ok("true",ClassSourceChecker.isProjectClass(entityName));
     }
 }

@@ -369,6 +369,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
         return !exist;
     }
 
+    @Override
+    public SysMenu getListByPath(String path) {
+        return baseMapper.selectOne(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getComponent, path));
+    }
+
     /**
      * 根据父节点的ID获取所有子节点
      *

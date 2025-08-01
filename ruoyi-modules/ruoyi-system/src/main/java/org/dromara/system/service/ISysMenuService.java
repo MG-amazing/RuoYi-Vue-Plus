@@ -160,4 +160,12 @@ public interface ISysMenuService {
      * @return 结果
      */
     boolean checkMenuNameUnique(SysMenuBo menu);
+
+    /**
+     *
+     * @param path
+     * @return
+     */
+
+    SysMenu getListByPath(String path);
 }

@@ -108,8 +108,14 @@ public class SysMenuVo implements Serializable {
      */
     private Date createTime;
     /**
-     * 按钮类型
+     * 实体类名称
      */
+    private String entityName;
+    /**
+     * 导出时的方法
+     */
+    private String exportFunction;
+
     private String buttonTypeTop;
     private String buttonTypeRow;
 

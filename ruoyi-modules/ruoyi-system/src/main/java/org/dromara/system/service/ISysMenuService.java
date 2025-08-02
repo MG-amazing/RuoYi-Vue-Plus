@@ -168,4 +168,13 @@ public interface ISysMenuService {
      */
 
     SysMenu getListByPath(String path);
+
+    /**
+     * 获取按钮列表路径下的
+     * @param userId
+     * @param path
+     * @return
+     */
+
+    List<SysMenu> selectMenuButtonList(Long userId, String path);
 }

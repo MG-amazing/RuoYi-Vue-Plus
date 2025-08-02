@@ -66,5 +66,31 @@
                  left join sys_role_menu rm on m.menu_id = rm.menu_id
         where m.status = '0' and rm.role_id = #{roleId}
     </select>
+    <select id="selectMenuButtonListH" resultType="org.dromara.system.domain.SysMenu">
+        select distinct m.menu_id,
+                        m.parent_id,
+                        m.menu_name,
+                        m.path,
+                        m.component,
+                        m.query_param,
+                        m.visible,
+                        m.status,
+                        m.perms,
+                        m.is_frame,
+                        m.is_cache,
+                        m.menu_type,
+                        m.icon,
+                        m.order_num,
+                        m.create_time,
+                        m.button_type_row,
+                        m.button_type_top
+        from sys_menu m
+                 left join sys_role_menu rm on m.menu_id = rm.menu_id and m.status = '0'
+                 left join sys_role r on rm.role_id = r.role_id and r.status = '0'
+        where m.menu_type ='F'
+          and m.perms LIKE #{path}
+          and r.role_id in (select role_id from sys_user_role where user_id = #{userId})
+        order by m.parent_id, m.order_num
+    </select>
 
 </mapper>

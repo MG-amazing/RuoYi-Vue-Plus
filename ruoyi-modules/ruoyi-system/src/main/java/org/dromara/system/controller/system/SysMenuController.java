@@ -9,6 +9,7 @@ import org.dromara.common.core.constant.SystemConstants;
 import org.dromara.common.core.constant.TenantConstants;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.core.utils.router.RouterUtils;
 import org.dromara.common.log.annotation.Log;
 import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.satoken.utils.LoginHelper;
@@ -46,6 +47,15 @@ public class SysMenuController extends BaseController {
     public R<List<RouterVo>> getRouters() {
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(LoginHelper.getUserId());
         return R.ok(menuService.buildMenus(menus));
+    }
+    /**
+     * 根据userId获取butten
+     */
+    @GetMapping("/getButtons")
+    public R<List<SysMenu>> getButtons(@RequestParam String path) {
+        String s = RouterUtils.fixRouterPath(path);
+        List<SysMenu> menus = menuService.selectMenuButtonList(LoginHelper.getUserId(),s);
+        return R.ok(menus);
     }
 
     /**

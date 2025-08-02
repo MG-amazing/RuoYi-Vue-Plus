@@ -374,6 +374,17 @@ public class SysMenuServiceImpl implements ISysMenuService {
         return baseMapper.selectOne(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getComponent, path));
     }
 
+    @Override
+    public List<SysMenu> selectMenuButtonList(Long userId, String path) {
+        List<SysMenu> menus;
+        if (LoginHelper.isSuperAdmin(userId)) {
+            menus = baseMapper.selectMenuButtonList(path);
+        } else {
+            menus = baseMapper.selectMenuButtonListH(userId, path);
+        }
+        return getChildPerms(menus, Constants.TOP_PARENT_ID);
+    }
+
     /**
      * 根据父节点的ID获取所有子节点
      *

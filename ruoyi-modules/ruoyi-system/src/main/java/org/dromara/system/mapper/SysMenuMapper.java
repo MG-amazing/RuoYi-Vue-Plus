@@ -73,4 +73,28 @@ public interface SysMenuMapper extends BaseMapperPlus<SysMenu, SysMenuVo> {
      */
     List<Long> selectMenuListByRoleId(@Param("roleId") Long roleId, @Param("menuCheckStrictly") boolean menuCheckStrictly);
 
+    /**
+     * 查询按钮列表
+     * @param path
+     * @return
+     */
+    default List<SysMenu> selectMenuButtonList(String path){
+        LambdaQueryWrapper<SysMenu> lqw = new LambdaQueryWrapper<SysMenu>()
+            .like(SysMenu::getPath, path)
+            .eq(SysMenu::getMenuType, SystemConstants.TYPE_BUTTON)
+            .eq(SysMenu::getStatus, SystemConstants.NORMAL)
+            .orderByAsc(SysMenu::getParentId)
+            .orderByAsc(SysMenu::getOrderNum);
+        return this.selectList(lqw);
+    }
+
+    /**
+     * 查询按钮列表非管理员
+     *
+     * @param userId
+     * @param path
+     * @return
+     */
+
+    List<SysMenu> selectMenuButtonListH(Long userId, String path);
 }

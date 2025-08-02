@@ -37,6 +37,12 @@ public class AutoExcelController {
         this.objectMapper = objectMapper;
     }
 
+    /**
+     * 自动导出Excel无须编码
+     * @param boForm 入参
+     * @return 文件流
+     */
+
     @PostMapping("/export")
     public ResponseEntity<?> AutoExportExcelController(@RequestBody CommonExportBo boForm) {
         try {

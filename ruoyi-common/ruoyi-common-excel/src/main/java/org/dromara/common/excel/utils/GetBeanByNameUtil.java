@@ -44,6 +44,22 @@ public class GetBeanByNameUtil {
             return null;
         }
     }
+    public static String toSearchBo(String entityName) {
+        if (entityName == null || !entityName.contains(".")) {
+            throw new IllegalArgumentException("非法类名: " + entityName);
+        }
+
+        int lastDotIndex = entityName.lastIndexOf(".");
+        String packageName = entityName.substring(0, lastDotIndex); // org.dromara.demo.domain
+        String className = entityName.substring(lastDotIndex + 1);  // TestDemo
+
+        // 插入 .bo
+        String boPackage = packageName + ".bo";
+        String boClassName = className + "Bo";
+
+        return boPackage + "." + boClassName;
+    }
+
 
 
 }

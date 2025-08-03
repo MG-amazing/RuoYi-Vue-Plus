@@ -2,6 +2,7 @@ package org.dromara.system.controller.system;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +40,7 @@ public class AutoExcelController {
 
     /**
      * 自动导出Excel无须编码
+     *
      * @param boForm 入参
      * @return 文件流
      */
@@ -49,11 +51,12 @@ public class AutoExcelController {
 
             Object controllerBean = getBeanByNameUtil.getControllerBean(boForm.getEntityName());
             Class<?> controllerClass = controllerBean.getClass();
+            boForm.setSearchBo(GetBeanByNameUtil.toSearchBo(boForm.getEntityName()));
             Class<?> boClass = Class.forName(boForm.getSearchBo());
 
             Method method = null;
             try {
-                method = controllerClass.getDeclaredMethod(boForm.getFunctionName(), boClass, PageQuery.class);
+                method = controllerClass.getDeclaredMethod(boForm.getExportFunction(), boClass, PageQuery.class);
                 System.out.println(method);
 
             } catch (Exception e) {
@@ -62,16 +65,22 @@ public class AutoExcelController {
             Object form = boForm.getForm();
             Object formData = objectMapper.convertValue(form, boClass);
             Map<String, Object> map = (Map<String, Object>) form;
-            PageQuery pageQuery = new PageQuery(Integer.valueOf((String) map.get("pageSize")) ,
-                Integer .valueOf((String) map.get("pageNum")));
+            PageQuery pageQuery = new PageQuery((Integer) map.get("pageSize"),
+                (Integer) map.get("pageNum"));
             Object result = method.invoke(controllerBean, formData, pageQuery);
             String resultStr = objectMapper.writeValueAsString(result);
             JsonNode rootNode = objectMapper.readTree(resultStr);
             JsonNode total = rootNode.path("total");
+            if (boForm.getType().equals("1")) {
+                pageQuery.setPageSize(Integer.valueOf(total.toString()));
+                result = method.invoke(controllerBean, formData, pageQuery);
+                resultStr = objectMapper.writeValueAsString(result);
+                rootNode = objectMapper.readTree(resultStr);
+            }
             JsonNode recordsArray = rootNode.path("rows");
             List<Map<String, Object>> resultList = objectMapper.convertValue(recordsArray, new TypeReference<>() {
             });
-            byte[] excelData = exportToExcelByJson(resultList, boForm.getColumns(), boForm.getFileName());
+            byte[] excelData = exportToExcelByJson(resultList, boForm.getColumns(), boForm.getSheetName());
 
 
             return ResponseEntity.ok(excelData);
@@ -89,7 +98,7 @@ public class AutoExcelController {
         // 创建新的工作簿
         try (Workbook workbook = new XSSFWorkbook()) {
             // 创建工作表
-            Sheet sheet = workbook.createSheet(sheetName == null ? "Sheet1" : sheetName);
+            Sheet sheet = workbook.createSheet(StrUtil.isBlank(sheetName) ? "Sheet1" : sheetName);
 
             // 创建表头行
             Row headerRow = sheet.createRow(0);

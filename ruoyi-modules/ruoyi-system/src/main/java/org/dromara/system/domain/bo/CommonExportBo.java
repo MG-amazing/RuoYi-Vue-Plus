@@ -14,7 +14,7 @@ public class CommonExportBo {
     /**
      * 分页方法名称
      */
-    private String functionName;
+    private String exportFunction;
     /**
      * 分页方法参数
      */
@@ -30,11 +30,11 @@ public class CommonExportBo {
     /**
      * 文件名字
      */
-    private String fileName;
+    private String sheetName;
     /**
      * 导出状态 true 为本页 false 为所有
      */
-    private boolean type =true;
+    private String type ;
     /**
      * 自定义方法
      */

@@ -382,7 +382,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         } else {
             menus = baseMapper.selectMenuButtonListH(userId, path);
         }
-        return getChildPerms(menus, Constants.TOP_PARENT_ID);
+        return menus;
     }
 
     /**

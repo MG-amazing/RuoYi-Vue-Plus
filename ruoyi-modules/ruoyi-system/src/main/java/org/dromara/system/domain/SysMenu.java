@@ -110,7 +110,7 @@ public class SysMenu extends BaseEntity {
 
     private String buttonTypeTop;
     private String buttonTypeRow;
-
+    private String color;
     /**
      * 父菜单名称
      */

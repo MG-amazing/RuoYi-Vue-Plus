@@ -116,5 +116,6 @@ public class SysMenuBo extends BaseEntity {
      */
     private String buttonTypeTop;
     private String buttonTypeRow;
+    private String color;
 
 }

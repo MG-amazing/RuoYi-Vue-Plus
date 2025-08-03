@@ -23,7 +23,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 菜单信息
@@ -51,11 +53,24 @@ public class SysMenuController extends BaseController {
     /**
      * 根据userId获取butten
      */
-    @GetMapping("/getButtons")
-    public R<List<SysMenu>> getButtons(@RequestParam String path) {
+    @PostMapping("/getButtons")
+    public R<Map<String,Object>> getButtons(@RequestParam String path) {
         String s = RouterUtils.fixRouterPath(path);
         List<SysMenu> menus = menuService.selectMenuButtonList(LoginHelper.getUserId(),s);
-        return R.ok(menus);
+        List<SysMenu>row=new ArrayList<>();
+        List<SysMenu>top=new ArrayList<>();
+        menus.forEach(d->{
+            if (d.getButtonTypeRow().equals("true")){
+                row.add(d);
+            }
+            if (d.getButtonTypeTop().equals("true")){
+                top.add(d);
+            }
+        });
+        Map<String, Object> map=new HashMap<>();
+        map.put("row",row);
+        map.put("top",top);
+        return R.ok(map);
     }
 
     /**

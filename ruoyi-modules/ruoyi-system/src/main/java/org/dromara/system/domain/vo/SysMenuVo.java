@@ -118,6 +118,7 @@ public class SysMenuVo implements Serializable {
 
     private String buttonTypeTop;
     private String buttonTypeRow;
+    private String color;
 
     /**
      * 子菜单

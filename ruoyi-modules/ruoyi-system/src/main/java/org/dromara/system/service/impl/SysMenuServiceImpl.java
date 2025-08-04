@@ -204,7 +204,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
             router.setPath(menu.getRouterPath());
             router.setComponent(menu.getComponentInfo());
             router.setQuery(menu.getQueryParam());
-            router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
+            router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath(),menu.getComponent()));
             List<SysMenu> cMenus = menu.getChildren();
             if (CollUtil.isNotEmpty(cMenus) && SystemConstants.TYPE_DIR.equals(menu.getMenuType())) {
                 router.setAlwaysShow(true);
@@ -218,7 +218,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
                 children.setPath(menu.getPath());
                 children.setComponent(menu.getComponent());
                 children.setName(frameName);
-                children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
+                children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath(),menu.getComponent()));
                 children.setQuery(menu.getQueryParam());
                 childrenList.add(children);
                 router.setChildren(childrenList);
@@ -375,12 +375,12 @@ public class SysMenuServiceImpl implements ISysMenuService {
     }
 
     @Override
-    public List<SysMenu> selectMenuButtonList(Long userId, String path) {
+    public List<SysMenu> selectMenuButtonList(Long userId, String id) {
         List<SysMenu> menus;
         if (LoginHelper.isSuperAdmin(userId)) {
-            menus = baseMapper.selectMenuButtonList(path);
+            menus = baseMapper.selectMenuButtonList(id);
         } else {
-            menus = baseMapper.selectMenuButtonListH(userId, path);
+            menus = baseMapper.selectMenuButtonListH(userId, id);
         }
         return menus;
     }

@@ -78,9 +78,9 @@ public interface SysMenuMapper extends BaseMapperPlus<SysMenu, SysMenuVo> {
      * @param path
      * @return
      */
-    default List<SysMenu> selectMenuButtonList(String path){
+    default List<SysMenu> selectMenuButtonList(String id){
         LambdaQueryWrapper<SysMenu> lqw = new LambdaQueryWrapper<SysMenu>()
-            .like(SysMenu::getPerms, path)
+            .like(SysMenu::getParentId, id)
             .eq(SysMenu::getMenuType, SystemConstants.TYPE_BUTTON)
             .eq(SysMenu::getStatus, SystemConstants.NORMAL)
             .orderByAsc(SysMenu::getParentId)
@@ -92,9 +92,9 @@ public interface SysMenuMapper extends BaseMapperPlus<SysMenu, SysMenuVo> {
      * 查询按钮列表非管理员
      *
      * @param userId
-     * @param path
+     * @param id
      * @return
      */
 
-    List<SysMenu> selectMenuButtonListH(Long userId, String path);
+    List<SysMenu> selectMenuButtonListH(Long userId, String id);
 }

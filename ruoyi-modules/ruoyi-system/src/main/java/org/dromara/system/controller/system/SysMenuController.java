@@ -55,8 +55,10 @@ public class SysMenuController extends BaseController {
      */
     @PostMapping("/getButtons")
     public R<Map<String,Object>> getButtons(@RequestParam String path) {
-        String s = RouterUtils.fixRouterPath(path);
-        List<SysMenu> menus = menuService.selectMenuButtonList(LoginHelper.getUserId(),s);
+        path = StringUtils.removeStart(path, "/");
+        SysMenu menu = menuService.getListByPath(path);
+        String menuId = menu.getMenuId().toString();
+        List<SysMenu> menus = menuService.selectMenuButtonList(LoginHelper.getUserId(),menuId);
         List<SysMenu>row=new ArrayList<>();
         List<SysMenu>top=new ArrayList<>();
         menus.forEach(d->{

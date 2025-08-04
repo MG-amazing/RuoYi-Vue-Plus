@@ -27,6 +27,8 @@ public class MetaVo {
      */
     private Boolean noCache;
 
+    private String component;
+
     /**
      * 内链地址（http(s)://开头）
      */
@@ -49,10 +51,11 @@ public class MetaVo {
         this.link = link;
     }
 
-    public MetaVo(String title, String icon, Boolean noCache, String link) {
+    public MetaVo(String title, String icon, Boolean noCache, String link,String component) {
         this.title = title;
         this.icon = icon;
         this.noCache = noCache;
+        this.component = component;
         if (StringUtils.ishttp(link)) {
             this.link = link;
         }

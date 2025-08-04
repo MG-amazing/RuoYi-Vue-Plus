@@ -172,9 +172,9 @@ public interface ISysMenuService {
     /**
      * 获取按钮列表路径下的
      * @param userId
-     * @param path
+     * @param id
      * @return
      */
 
-    List<SysMenu> selectMenuButtonList(Long userId, String path);
+    List<SysMenu> selectMenuButtonList(Long userId, String id);
 }

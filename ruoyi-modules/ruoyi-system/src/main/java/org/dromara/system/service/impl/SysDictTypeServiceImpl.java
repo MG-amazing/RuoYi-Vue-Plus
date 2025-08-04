@@ -264,6 +264,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService, DictService 
         List<SysDictDataVo> list = SpringUtils.getAopProxy(this).selectDictDataByType(dictType);
         // 保证顺序
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        if (CollUtil.isEmpty( list)){
+            return map;
+        }
         for (SysDictDataVo vo : list) {
             map.put(vo.getDictValue(), vo.getDictLabel());
         }

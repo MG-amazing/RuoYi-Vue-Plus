@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
+import org.dromara.common.core.domain.dto.DictDataDTO;
+import org.dromara.common.core.service.DictService;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
 import org.dromara.common.excel.utils.ExcelUtil;
@@ -22,7 +24,11 @@ import org.dromara.workflow.service.ITestLeaveService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 请假
@@ -38,6 +44,7 @@ import java.util.List;
 public class TestLeaveController extends BaseController {
 
     private final ITestLeaveService testLeaveService;
+    private final DictService dictService;
 
     /**
      * 查询请假列表
@@ -104,5 +111,20 @@ public class TestLeaveController extends BaseController {
     public R<Void> remove(@NotEmpty(message = "主键不能为空")
                           @PathVariable Long[] ids) {
         return toAjax(testLeaveService.deleteWithValidByIds(List.of(ids)));
+    }
+    @SuppressWarnings("unused")
+    public List<Map<String, Object>> invokeData(List<Map<String, Object>> data) {
+        Map<String, DictDataDTO> wfBusinessStatus = dictService.getDictData("wf_business_status").stream()
+            .collect(Collectors.toMap(DictDataDTO::getDictValue, Function.identity()));
+        Map<String, String> map = new HashMap<>();
+        map.put("1", "事假");
+        map.put("2", "调休");
+        map.put("3", "病假");
+        map.put("4", "婚假");
+        data.forEach(d -> {
+            d.put("status", wfBusinessStatus.get(d.get("status").toString()).getDictLabel());
+            d.put("leaveType", map.get(d.get("leaveType").toString()));
+        });
+        return data;
     }
 }

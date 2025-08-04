@@ -80,6 +80,14 @@ public class AutoExcelController {
             JsonNode recordsArray = rootNode.path("rows");
             List<Map<String, Object>> resultList = objectMapper.convertValue(recordsArray, new TypeReference<>() {
             });
+            if (StrUtil.isNotBlank(boForm.getCustomize())){
+                Method declaredMethod = controllerClass.getDeclaredMethod(boForm.getCustomize(), List.class);
+                try {
+                    resultList = (List<Map<String, Object>>) declaredMethod.invoke(controllerBean, resultList);
+                }catch (Exception e){
+                    throw new RuntimeException(e);
+                }
+            }
             byte[] excelData = exportToExcelByJson(resultList, boForm.getColumns(), boForm.getSheetName());
 
 

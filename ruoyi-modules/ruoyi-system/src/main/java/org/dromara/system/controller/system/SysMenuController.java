@@ -3,7 +3,9 @@ package org.dromara.system.controller.system;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.constant.SystemConstants;
 import org.dromara.common.core.constant.TenantConstants;
@@ -61,15 +63,19 @@ public class SysMenuController extends BaseController {
         List<SysMenu> menus = menuService.selectMenuButtonList(LoginHelper.getUserId(),menuId);
         List<SysMenu>row=new ArrayList<>();
         List<SysMenu>top=new ArrayList<>();
+        Map<String, Object> map=new HashMap<>();
+
+        if (CollUtil.isEmpty( menus)){
+            return R.ok(map);
+        }
         menus.forEach(d->{
-            if (d.getButtonTypeRow().equals("true")){
+            if (StrUtil.isNotBlank(d.getButtonTypeRow())&&d.getButtonTypeRow().equals("true")){
                 row.add(d);
             }
-            if (d.getButtonTypeTop().equals("true")){
+            if (StrUtil.isNotBlank(d.getButtonTypeTop())&&d.getButtonTypeTop().equals("true")){
                 top.add(d);
             }
         });
-        Map<String, Object> map=new HashMap<>();
         map.put("row",row);
         map.put("top",top);
         return R.ok(map);

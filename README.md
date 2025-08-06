@@ -1,41 +1,59 @@
-<img src="https://foruda.gitee.com/images/1679673773341074847/178e8451_1766278.png" width="50%" height="50%">
-<div style="height: 10px; clear: both;"></div>
+# RuoYi-Vue-Plus-Excel
 
-- - -
-## 平台简介
+基于 [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 改造升级，实现 **零代码配置导出 Excel** 的能力，专注于提升实际业务中的数据导出效率，支持动态表头、查询条件导出、分页导出、自定义数据处理等功能。
 
-[![码云Gitee](https://gitee.com/dromara/RuoYi-Vue-Plus/badge/star.svg?theme=blue)](https://gitee.com/dromara/RuoYi-Vue-Plus)
-[![GitHub](https://img.shields.io/github/stars/dromara/RuoYi-Vue-Plus.svg?style=social&label=Stars)](https://github.com/dromara/RuoYi-Vue-Plus)
-[![Star](https://gitcode.com/dromara/RuoYi-Vue-Plus/star/badge.svg)](https://gitcode.com/dromara/RuoYi-Vue-Plus)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/dromara/RuoYi-Vue-Plus/blob/master/LICENSE)
-[![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=RuoYi-Vue-Plus)
-<br>
-[![RuoYi-Vue-Plus](https://img.shields.io/badge/RuoYi_Vue_Plus-5.3.0-success.svg)](https://gitee.com/dromara/RuoYi-Vue-Plus)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4-blue.svg)]()
-[![JDK-17](https://img.shields.io/badge/JDK-17-green.svg)]()
-[![JDK-21](https://img.shields.io/badge/JDK-21-green.svg)]()
+## 🌟 项目亮点
 
-> Dromara RuoYi-Vue-Plus 是重写 RuoYi-Vue 针对 `分布式集群与多租户` 场景全方位升级(不兼容原框架)
+- ✅ 无需编码，仅通过配置即可导出
+- ✅ 动态表头导出（根据勾选字段导出）
+- ✅ 查询条件导出（查什么导出什么）
+- ✅ 支持当前页导出 / 全部导出 / 指定页码导出
+- ✅ 支持自定义数据处理（字典项翻译、字段格式转换等）
+- ✅ 已封装前端组件，快速集成
 
-> 项目代码、文档 均开源免费可商用 遵循开源协议在项目中保留开源协议文件即可<br>
-活到老写到老 为兴趣而开源 为学习而开源 为让大家真正可以学到技术而开源
+## 📦 使用方式
 
-> 系统演示: [传送门](https://plus-doc.dromara.org/#/common/demo_system)
+### 1. 菜单配置按钮
 
-> 官方前端项目地址: [plus-ui](https://gitee.com/JavaLionLi/plus-ui)<br>
-> 成员前端项目地址: 基于vben5 [ruoyi-plus-vben5](https://gitee.com/dapppp/ruoyi-plus-vben5)
+在 `菜单配置` 页面添加一个导出按钮：
 
-> 文档地址: [plus-doc](https://plus-doc.dromara.org)
+- **导出方法**填写：`list`（即对应的接口方法）
+- **实体类全路径名称**填写：如 `org.dromara.demo.domain.TestDemo`
 
+### 2. 前端使用方式
 
+直接引入已封装好的导出组件，传入导出参数即可（[点击跳转](https://github.com/MG-amazing/plus-ui-excel)） 。
 
+### 3. 一键导出
 
+点击配置好的按钮，即可完成 Excel 文件导出。
 
+## 🧩 高级功能说明
 
+| 功能                     | 说明 |
+|--------------------------|------|
+| 动态表头导出             | 根据传入的 `columns` 控制导出字段 |
+| 查询条件导出             | 与页面查询同步，导出当前所查数据 |
+| 分页导出                 | 支持导出当前页或全量数据 |
+| 字典项自定义转换         | 支持传入 `customize` 方法做格式处理 |
+| 自定义文件名             | 设置导出文件名称、sheet 名称 |
 
+## 📚 项目背景
 
+本项目基于 [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus)：
 
+> Dromara RuoYi-Vue-Plus 是 RuoYi-Vue 的重写升级版本，面向分布式与多租户场景，完全重构，功能更强大、扩展性更强。开源、免费、可商用。
 
+推荐配合官方前端项目使用：
 
+- 🌐 前端项目：[plus-ui](https://gitee.com/JavaLionLi/plus-ui)
+- 🌐 文档地址：[plus-doc](https://plus-doc.dromara.org)
 
+## 🔗 项目地址
 
+- GitHub后端：[MG-amazing/RuoYi-Vue-Plus-Excel](https://github.com/MG-amazing/RuoYi-Vue-Plus-Excel)
+- GitHub前端：[MG-amazing/plus-ui-excel](https://github.com/MG-amazing/plus-ui-excel)
+
+## 📝 License
+
+本项目基于 MIT 协议开源，免费商用，保留协议文件即可。

@@ -1,4 +1,8 @@
 # RuoYi-Vue-Plus-Excel
+> 🌐 **Multilingual Versions**  
+> 🇯🇵 [日本語](./md/RuoYi-Vue-Plus-Excel-ja.md)  
+> 🇺🇸 [English Version](./md/RuoYi-Vue-Plus-Excel-en.md)
+
 
 基于 [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 改造升级，实现 **零代码配置导出 Excel** 的能力，专注于提升实际业务中的数据导出效率，支持动态表头、查询条件导出、分页导出、自定义数据处理等功能。
 

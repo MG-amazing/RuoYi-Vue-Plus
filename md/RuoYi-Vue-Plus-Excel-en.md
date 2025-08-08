@@ -1,7 +1,7 @@
 # RuoYi-Vue-Plus-Excel
 > 🌐 **Multilingual Versions**  
-> 🇯🇵 [中文](../README.md)  
-> 🇺🇸 [日本語](RuoYi-Vue-Plus-Excel-ja.md)
+>  [中文](../README.md)  
+>  [日本語](RuoYi-Vue-Plus-Excel-ja.md)
 
 Based on [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus), this project is upgraded to enable **zero-code Excel export**, focusing on improving data export efficiency in real business scenarios. It supports dynamic headers, export with query conditions, pagination export, and custom data processing.
 

@@ -5,7 +5,7 @@
 
 Based on [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus), this project is upgraded to enable **zero-code Excel export**, focusing on improving data export efficiency in real business scenarios. It supports dynamic headers, export with query conditions, pagination export, and custom data processing.
 ## 📚Demo
-Demo URL [http://35.77.227.88/](http://35.77.227.88/)
+Demo URL [https://mgamazing.asia/](https://mgamazing.asia/)
 
 ## 🌟 Highlights
 

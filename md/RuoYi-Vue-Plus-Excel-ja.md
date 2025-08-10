@@ -7,7 +7,7 @@
 [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) をベースに改良・アップグレードされ、**コード不要でExcelをエクスポート**できる機能を実現しました。実際の業務におけるデータ出力効率の向上に特化しており、動的ヘッダー、検索条件の出力、ページごとの出力、カスタムデータ処理などをサポートしています。
 
 ## 📚 デモURL
-デモURL [http://35.77.227.88/](http://35.77.227.88/)
+デモURL [https://mgamazing.asia/](https://mgamazing.asia/)
 
 ## 🌟 プロジェクトの特長
 
